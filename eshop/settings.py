@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'admin_module',
     'site_module',
     'contact_module',
+    'polls',
     # external apps
     'django_render_partial'
 ]
