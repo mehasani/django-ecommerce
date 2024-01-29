@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # internal apps
     'admin_module',
-    'site_module'
+    'site_module',
+    'contact_module',
+    # external apps
+    'django_render_partial'
 ]
 
 MIDDLEWARE = [
@@ -57,7 +60,9 @@ ROOT_URLCONF = 'eshop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,6 +129,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+MEDIA_ROOT = BASE_DIR / 'uploads'
+
+MEDIA_URL = '/medias/'
+
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]

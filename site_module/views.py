@@ -13,7 +13,7 @@ def site_header_component(request):
     context = {
         'site_setting': setting
     }
-    return render(request, 'shared/front/site_header_component.html', context)
+    return render(request, 'shared/site_header_component.html', context)
 
 
 def site_footer_component(request):
@@ -28,4 +28,4 @@ def site_footer_component(request):
         'footer_link_boxes': footer_link_boxes,
         'site_setting': setting,
     }
-    return render(request, 'shared/front/site_footer_component.html', context)   
+    return render(request, 'shared/site_footer_component.html', context)   

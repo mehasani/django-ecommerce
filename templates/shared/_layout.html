@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>{% block title %}{% endblock %}</title>
-    {% include 'shared/front/header_references.html' %}
+    {% include 'shared/header_references.html' %}
     {% block page_css %}{% endblock %}
 </head><!--/head-->
 
@@ -17,7 +17,7 @@
 {% render_partial 'site_module.views.site_header_component' %}
 {% block content %}{% endblock %}
 {% render_partial 'site_module.views.site_footer_component' %}
-{% include 'shared/front/footer_references.html' %}
+{% include 'shared/footer_references.html' %}
 {% block page_js %}{% endblock %}
 
 </body>
