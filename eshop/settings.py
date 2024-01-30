@@ -39,11 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # internal apps
     'admin_module',
+    'article_module',
+    'user_module',
     'site_module',
     'contact_module',
     'polls',
     # external apps
-    'django_render_partial'
+    'django_render_partial',
+    'rest_framework',
+    'sorl.thumbnail',
+    'jalali_date',
 ]
 
 MIDDLEWARE = [
