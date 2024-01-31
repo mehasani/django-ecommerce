@@ -1,0 +1,180 @@
+{% extends 'shared/_layout.html' %}
+{% load poll_extras %}
+{% load render_partial %}
+
+{% block title %} {{ product.title }} {% endblock %}
+
+{% block page_css %}
+    <link href="/static/lib/image_lightbox/css/lightbox.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <section>
+        <div class="container">
+            <div class="row">
+                {% if is_favorite %}
+                    <div class="col-md-12">
+                        <p>
+                            این محصول به لیست علاقه مندی های شما افزوده شده است
+                        </p>
+                    </div>
+                {% endif %}
+                <div class="col-sm-9 padding-right">
+                    <div class="product-details"><!--product-details-->
+                        <div class="col-sm-5">
+                            <div class="view-product">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" id="main_image" alt=""/>
+                                {% else %}
+                                    <img src="/static/images/shop/product.jpg" id="main_image" alt=""/>
+                                {% endif %}
+                                <h3>
+                                    <a style="color: white" id="show_large_image_modal" href="{{ product.image.url }}"
+                                       data-lightbox="product-image">
+                                        بزرگنمایـی
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="similar-product" class="carousel slide" data-ride="carousel">
+
+                                <!-- Wrapper for slides -->
+                                <div class="carousel-inner">
+                                    {% for group in product_galleries %}
+                                        <div class="item {% if forloop.first %}active{% endif %} ">
+                                            {% for gallery in group %}
+                                                <a onclick="showLargeImage('{{ gallery.image.url }}')"><img
+                                                        src="{{ gallery.image.url }}" style="width: 85px; height: 85px"
+                                                        alt=""></a>
+                                            {% endfor %}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+                                <!-- Controls -->
+                                <a class="right item-control" href="#similar-product" data-slide="next">
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                                <a class="left item-control" href="#similar-product" data-slide="prev">
+                                    <i class="fa fa-angle-left"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="product-information"><!--/product-information-->
+                                <div>
+                                    <h2> {{ product.title }}</h2>
+                                    <p> شناسـه : {{ product.id }}</p>
+                                </div>
+                                <div>
+									<span>
+										<span> قیمت : {{ product.price|three_digits_currency }} </span>
+									</span>
+                                    <span>
+                                        <label>تعداد :</label>
+										<input type="number" min="1" value="1" id="product-count"
+                                               class="search_box"/>
+										<button onclick="addProductToBasket()"
+                                                class="btn btn-fefault cart">
+											<i class="fa fa-shopping-cart"></i>
+											افزودن به سبد خرید
+										</button>
+
+									</span>
+                                    <span>
+										<button onclick="addProductToFavorite()" class="btn btn-fefault cart">
+											<i class="fa fa-heart"></i>
+											افزودن به علاقمندی ها
+										</button>
+									</span>
+                                </div>
+                                <div>
+                                    <p><b>موجـودی :</b> در انبـار موجود می باشد</p>
+                                    {% if product.brand %}
+                                        <p><b>برنـد :</b> {{ product.brand.title }} </p>
+                                    {% endif %}
+                                </div>
+                                <span class="socials-share share">
+									<ul>
+										<a href="#">
+											<li>
+												<label>بلـه</label>
+												<img src="/static/images/product-details/Bale.png"/>
+											</li>
+										</a>
+										<a href="#">
+											<li>
+												<label>سـروش</label>
+												<img src="/static/images/product-details/Soroush.png"/>
+											</li>
+										</a>
+										<a href="#">
+											<li>
+												<label>اینستاگرام</label>
+												<img src="/static/images/product-details/Instagram.png"/>
+											</li>
+										</a>
+										<li><img src="/static/images/product-details/rating.png" alt=""/></li>
+									</ul>
+								</span>
+
+                            </div><!--/product-information-->
+                        </div>
+                    </div><!--/product-details-->
+
+                    <div class="category-tab shop-details-tab"><!--category-tab-->
+                        <div class="col-sm-12">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#details" data-toggle="tab">جزئیات</a></li>
+                                <li><a href="#reviews" data-toggle="tab">نظرات (5)</a></li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="details">
+                                <div class="col-md-12">
+                                    {{ product.description |safe }}
+                                </div>
+                            </div>
+
+                            {% include 'product_module/includes/product_comment_section.html' %}
+
+                        </div>
+                    </div><!--/category-tab-->
+
+                    {% include 'product_module/includes/related_products_section.html' with related_products=related_products %}
+
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="left-sidebar">
+                        {% render_partial 'product_module.views.product_categories_component' %}
+
+                        {% render_partial 'product_module.views.product_brands_component' %}
+
+                        <div class="shipping text-center"><!--shipping-->
+                            {% for banner in banners %}
+                                <a href="{{ banner.url }}">
+                                    <img src="{{ banner.image.url }}" alt=""/>
+                                </a>
+                            {% endfor %}
+                            <br>
+                            <br>
+                        </div><!--/shipping-->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <script>
+        const productId = {{ product.id }}
+    </script>
+{% endblock %}
+
+{% block page_js %}
+    <script src="/static/lib/image_lightbox/js/lightbox.min.js"></script>
+    <script src="/static/lib/image_lightbox/js/lightbox-plus-jquery.min.js"></script>
+{% endblock %}

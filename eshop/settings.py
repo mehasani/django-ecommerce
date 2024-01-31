@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # internal apps
     'admin_module',
     'article_module',
+    'product_module',
     'user_module',
     'site_module',
     'contact_module',
