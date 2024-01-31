@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'admin_module',
     'article_module',
     'product_module',
+    'order_module',
     'user_module',
     'site_module',
     'contact_module',
