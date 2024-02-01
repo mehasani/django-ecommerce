@@ -39,7 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # internal apps
     'admin_module',
-    'site_module'
+    'home_module',
+    'article_module',
+    'product_module',
+    'order_module',
+    'user_module',
+    'site_module',
+    'contact_module',
+    'polls',
+    # external apps
+    'django_render_partial',
+    'rest_framework',
+    'sorl.thumbnail',
+    'jalali_date',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +69,9 @@ ROOT_URLCONF = 'eshop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,6 +138,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+MEDIA_ROOT = BASE_DIR / 'uploads'
+
+MEDIA_URL = '/medias/'
+
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
@@ -134,6 +153,13 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'mehasaniprivate@gmail.com'
+EMAIL_HOST_PASSWORD = 'dbudetlyhgnnpqhb'
+EMAIL_PORT = 587
 
 CACHES = {
     "default": {
