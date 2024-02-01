@@ -44,7 +44,7 @@
 
                 <div class="col-sm-8 header-middle-menu">
                     <div class="shop-menu pull-right">
-                        {% comment %}<ul class="nav navbar-nav">
+                        <ul class="nav navbar-nav">
                             {% if loggedin_user %}
                                 <li><a href="{% url 'user_basket_page' %}"><i class="fa fa-shopping-cart"></i> سبد خرید </a></li>
                                 <li><a href="{% url 'user_panel_dashboard_page' %}"><i class="fa fa-user"></i> پنل کاربری </a></li>
@@ -53,9 +53,7 @@
                                 <li><a href="{% url 'register_page' %}"><i class="fa fa-sign-in"></i> ثبت نام </a></li>
                                 <li><a href="{% url 'login_page' %}"><i class="fa fa-lock"></i> ورود </a></li>
                             {% endif %}
-
                         </ul>
-                        {% endcomment %}
                     </div>
                 </div>
             </div>
@@ -83,13 +81,10 @@
                     </div>
                     <div class="mainmenu pull-right">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            {% comment %}
-                            <li><a href="{% url "home_page" %}" class="{% if request.resolver_match.url_name == 'home_page' %}active{% endif %} ">خـانه</a></li>{% endcomment %}
+                            <li><a href="{% url "home_page" %}" class="{% if request.resolver_match.url_name == 'home_page' %}active{% endif %} ">خـانه</a></li>
                             <li><a href="{% url "products_list" %}" class="{% if request.resolver_match.url_name == 'products_list' %}active{% endif %} ">محصولات</a></li>
                             <li><a href="{% url 'articles_list' %}" class="{% if request.resolver_match.url_name == 'articles_list' %}active{% endif %} ">مقالات</a></li>
-                            {% comment %}
                             <li><a href="{% url 'about_page' %}" class="{% if request.resolver_match.url_name == 'about_page' %}active{% endif %} ">درباره مـا</a></li>
-                            {% endcomment %}
                             <li><a href="{% url 'contact_us_page' %}" class="{% if request.resolver_match.url_name == 'contact_us_page' %}active{% endif %} ">تماس با مـا</a></li>
                         </ul> 
                     </div>

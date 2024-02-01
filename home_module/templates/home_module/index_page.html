@@ -1,0 +1,80 @@
+{% extends 'shared/_layout.html' %}
+{% load poll_extras %}
+{% load thumbnail %}
+{% block title %}
+    {{ site_setting.site_name }}
+{% endblock %}
+
+{% block content %}
+    {% include 'home_module/includes/slider_section.html' with sliders=sliders %}
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 padding-right">
+                  <div class="recommended_items"><!--NewProduct_items-->
+                        <h2 class="title text-center">جدید ترین محصولات</h2>
+                        <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <div id="latest_products"></div>  
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--/NewProduct_items-->
+
+                    {% comment %} {% include 'home_module/includes/latest_products_section.html' with latest_products=latest_products %} {% endcomment %}
+                    {% include 'home_module/includes/most_visit_products_section.html' with most_visit_products=most_visit_products %}
+                    {% include 'home_module/includes/most_bought_products_section.html' with most_bought_products=most_bought_products %}
+                    {% include 'home_module/includes/categories_products_section.html' with categories_products=categories_products %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block page_js %}
+    <script>
+        $(document).ready(function () {
+
+            $.ajax({
+                url: '/latest-product',
+                type: "GET",
+                dataType: "json",
+                success: function (result) {
+                    result.forEach(function(product) {
+                        var productHtml = `
+                            <div class="col-sm-3">
+                                <div class="product-image-wrapper">
+                                    <div class="single-products">
+                                        <div class="productinfo text-center">
+                                            <img src="${product.image}" alt="${ product.title}"/>
+                                            <h2>${ product.price}</h2>
+                                            <p>${ product.title}</p>
+                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
+                                        </div>
+                                        <div class="product-overlay">
+                                            <div class="overlay-content">
+                                                <h2>${ product.price}</h2>
+                                                <p>${ product.title}</p>
+                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>افزودن به سبـد خریـد</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="choose">
+                                        <ul class="nav nav-pills nav-justified">
+                                            <li>
+                                                <a href="/products/${product.slug}"><i class="fa fa-plus-square"></i> مشاهده جزئیات </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        $("#latest_products").append(productHtml);
+                    });
+                },
+            });
+        });
+    </script>
+{% endblock %}

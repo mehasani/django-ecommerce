@@ -24,7 +24,7 @@ class RegisterView(View):
         context = {
             'register_form': register_form
         }
-        return render(request, 'user_module/front/register.html', context)
+        return render(request, 'user_module/register.html', context)
 
     def post(self, request):
         register_form = RegisterForm(request.POST)
@@ -57,7 +57,7 @@ class RegisterView(View):
         context = {
             'register_form': register_form
         }
-        return render(request, 'user_module/front/register.html', context)
+        return render(request, 'user_module/register.html', context)
 
 
 class LoginView(View):
@@ -67,7 +67,7 @@ class LoginView(View):
             'login_form': login_form
         }
 
-        return render(request, 'user_module/front/login.html', context)
+        return render(request, 'user_module/login.html', context)
 
     def post(self, request: HttpRequest):
         login_form = LoginForm(request.POST)
@@ -93,7 +93,7 @@ class LoginView(View):
             'login_form': login_form
         }
 
-        return render(request, 'user_module/front/login.html', context)
+        return render(request, 'user_module/login.html', context)
 
 
 class LogoutView(View):
@@ -156,7 +156,7 @@ class ResetPasswordView(View):
             'reset_pass_form': reset_pass_form,
             'user': user
         }
-        return render(request, 'user_module/front/reset_password.html', context)
+        return render(request, 'user_module/reset_password.html', context)
 
     def post(self, request: HttpRequest, reset_code):
         reset_pass_form = ResetPasswordForm(request.POST)
@@ -176,14 +176,14 @@ class ResetPasswordView(View):
             'reset_pass_form': reset_pass_form,
             'user': user
         }
-        return render(request, 'user_module/front/reset_password.html', context)
+        return render(request, 'user_module/reset_password.html', context)
 
 
 # ------ User Panel ------
 
 @method_decorator(user_login_required, name='dispatch')
 class UserPanelDashboardPage(TemplateView):
-    template_name = 'user_module/front/user_dashboard.html'
+    template_name = 'user_module/user_dashboard.html'
 
 
 @method_decorator(user_login_required, name='dispatch')
@@ -194,7 +194,7 @@ class EditUserProfilePage(View):
         context = {
             'form': edit_form
         }
-        return render(request, 'user_module/front/edit_user_profile_page.html', context)
+        return render(request, 'user_module/edit_user_profile_page.html', context)
 
     def post(self, request: HttpRequest):
         user = LoggedinUser(request)
@@ -205,7 +205,7 @@ class EditUserProfilePage(View):
         context = {
             'form': edit_form
         }
-        return render(request, 'user_module/front/edit_user_profile_page.html', context)
+        return render(request, 'user_module/edit_user_profile_page.html', context)
 
 
 @method_decorator(user_login_required, name='dispatch')
@@ -214,7 +214,7 @@ class ChangePasswordPage(View):
         context = {
             'change_pass_form': ChangePasswordForm()
         }
-        return render(request, 'user_module/front/change_password_page.html', context)
+        return render(request, 'user_module/change_password_page.html', context)
 
     def post(self, request: HttpRequest):
         change_pass_form = ChangePasswordForm(request.POST)
@@ -233,13 +233,13 @@ class ChangePasswordPage(View):
         context = {
             'change_pass_form': change_pass_form
         }
-        return render(request, 'user_module/front/change_password_page.html', context)
+        return render(request, 'user_module/change_password_page.html', context)
 
 
 @method_decorator(user_login_required, name='dispatch')
 class LastOrders(ListView):
     model = Order
-    template_name = 'user_module/front/user_last_orders.html'
+    template_name = 'user_module/user_last_orders.html'
 
     def get_queryset(self):
         user = LoggedinUser(self.request)
@@ -259,7 +259,7 @@ def last_orders_detail(request: HttpRequest, order_id):
     context = {
         'order': order
     }
-    return render(request, 'user_module/front/user_last_orders_detail.html', context)
+    return render(request, 'user_module/user_last_orders_detail.html', context)
 
 
 @user_login_required
@@ -276,7 +276,7 @@ def user_basket(request: HttpRequest):
         'order': current_order,
         'sum': total_amount
     }
-    return render(request, 'user_module/front/user_basket.html', context)
+    return render(request, 'user_module/user_basket.html', context)
 
 
 def remove_order_detail(request: HttpRequest):
@@ -303,7 +303,7 @@ def remove_order_detail(request: HttpRequest):
 
     return JsonResponse({
         'status': 'success',
-        'body': render_to_string('user_module/front/includes/user_basket_content.html', context)
+        'body': render_to_string('user_module/includes/user_basket_content.html', context)
     })
 
 
@@ -346,5 +346,5 @@ def change_order_detail_count(request: HttpRequest):
 
     return JsonResponse({
         'status': 'success',
-        'body': render_to_string('user_module/front/includes/user_basket_content.html', context)
+        'body': render_to_string('user_module/includes/user_basket_content.html', context)
     })
