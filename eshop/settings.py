@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-chqe3ly!v++63_grc19=k+-a4nq*&8drg5@tvfn9&%$1qv_d@k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','127.0.0.1','app']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1']
 
 
 # Application definition
@@ -51,7 +52,7 @@ INSTALLED_APPS = [
     'django_render_partial',
     'rest_framework',
     'sorl.thumbnail',
-    'jalali_date',
+    # 'jalali_date',
 ]
 
 MIDDLEWARE = [
@@ -95,9 +96,9 @@ DATABASES = {
    'default': {
       'ENGINE': 'django.db.backends.mysql',
       'NAME': 'eshop',
-      'USER': 'mehasani',
-      'PASSWORD': '6292296',
-      'HOST': 'localhost',
+      'USER': 'eshop',
+      'PASSWORD': 'eshop',
+      'HOST': 'mysql',
       'PORT': '3306',
    }
 }
@@ -164,7 +165,7 @@ EMAIL_PORT = 587
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://redis:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
