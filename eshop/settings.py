@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-chqe3ly!v++63_grc19=k+-a4nq*&8drg5@tvfn9&%$1qv_d@k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1','app']
+ALLOWED_HOSTS = ['localhost','127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1']
 
 
@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'django_render_partial',
     'rest_framework',
     'sorl.thumbnail',
-    # 'jalali_date',
+    'jalali_date',
 ]
 
 MIDDLEWARE = [
@@ -161,6 +161,30 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'mehasaniprivate@gmail.com'
 EMAIL_HOST_PASSWORD = 'dbudetlyhgnnpqhb'
 EMAIL_PORT = 587
+
+JALALI_DATE_DEFAULTS = {
+    'Strftime': {
+        'date': '%y/%m/%d',
+        'datetime': '%H:%M:%S _ %y/%m/%d',
+    },
+    'Static': {
+        'js': [
+            # loading datepicker
+            'admin/js/django_jalali.min.js',
+            # OR
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/calendar.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js',
+            # 'admin/js/main.js',
+        ],
+        'css': {
+            'all': [
+                'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css',
+            ]
+        }
+    },
+}
 
 CACHES = {
     "default": {
