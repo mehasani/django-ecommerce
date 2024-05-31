@@ -1,6 +1,5 @@
 {% extends 'shared/_layout.html' %}
 {% load poll_extras %}
-{% load thumbnail %}
 {% load render_partial %}
 
 {% block title %}
@@ -15,8 +14,44 @@
                 <div class="col-sm-9">
                     <div class="blog-post-area">
                         <h2 class="title text-center">آخریـن اخبـار</h2>
-                        <div id="articles"></div>
-                        <div id="pagination-container"></div>
+                        {% for article in object_list %}
+                            <div class="single-blog-post">
+                                <h3>{{article.title}}</h3>
+                                <div class="post-meta">
+                                    <ul>
+                                        <li><i class="fa fa-user"></i>{{article.author}}</li>
+                                        <li><i class="fa fa-clock-o"></i>{{article.get_jalali_create_time}}</li>
+                                        <li><i class="fa fa-calendar"></i>{{article.create_date | show_jalali_date}}</li>
+                                    </ul>
+                                </div>
+                                <a href="/articles/${article.id}">
+                                    <img src="{{article.image.url}}">
+                                </a>
+                                <p>{{article.short_description}}</p>
+                                <a class="btn btn-primary" href="/articles/${article.id}">ادامـه
+                                    مطلب</a>
+                            </div>
+                        {% endfor %}
+                        
+                        <ul class="pagination">
+
+                            {% if page_obj.has_previous %}
+                                <li><a class="cursor-pointer"
+                                       href="?page={{ page_obj.previous_page_number }}"> قبلی </a></li>
+                            {% endif %}
+                        
+                            {% for pageNumber in paginator.page_range %}
+                                <li class="{% if page_obj.number == pageNumber %}active {% endif %} "><a
+                                        class="cursor-pointer"
+                                        href="?page={{ pageNumber }}"> {{ pageNumber }}</a></li>
+                            {% endfor %}
+                        
+                            {% if page_obj.has_next %}
+                                <li><a class="cursor-pointer" href="?page={{ page_obj.next_page_number }}">
+                                    بعدی </a></li>
+                            {% endif %}
+                        
+                        </ul>
                     </div>
                 </div>
 
@@ -33,99 +68,4 @@
             </div>
         </div>
     </section>
-{% endblock %}
-
-{% block page_js %}
-    <script>
-        var pageUrl = window.location.pathname;
-        var lastPart = pageUrl.split('/').pop();
-        var finalLink = ''
-        var ajaxUrl = ''; 
-        $(document).ready(function () {
-            changePage();
-        });
-
-        function changePage(link=''){
-            if(link === ''){
-                if(lastPart === ''){
-                    ajaxUrl = '/articles/article-list-ajax';
-                    articleAjax(ajaxUrl)
-                }else{
-                    ajaxUrl = '/articles/categories-article-list/'+lastPart;
-                    articleAjax(ajaxUrl);
-                }
-            }else{
-                articleAjax(link);
-            }
-            
-        }
-
-        function articleAjax(link){
-            finalLink = link
-            $.ajax({
-                url: link,
-                type: "GET",
-                dataType: "json",
-                success: function (result) {
-                    displayArticles(result.results);
-                    createPagination(result);
-                },
-            });
-        }
-
-        function displayArticles(articles) {
-            $("#articles").empty();
-            articles.forEach(function(article) {
-
-                var articleHtml = `
-                    <div class="single-blog-post">
-                        <h3>${article.title}</h3>
-                        <div class="post-meta">
-                            <ul>
-                                <li><i class="fa fa-user"></i>${article.author_name}</li>
-                                <li><i class="fa fa-calendar"></i>${article.jalali_date}</li>
-                            </ul>
-                        </div>
-                        <a href="/articles/${article.id}">
-                            <img src="${article.image}">
-                        </a>
-                        <p>${article.short_description}</p>
-                        <a class="btn btn-primary" href="/articles/${article.id}">ادامـه
-                            مطلب</a>
-                    </div>
-                `;
-
-                $("#articles").append(articleHtml);
-            });
-        }
-        function createPagination(result) {
-            if (result.count > 0) {
-                var totalPages = Math.ceil(result.count / 1);
-                var currentPage = 1; 
-
-                var currentPageNumber = finalLink.match(/page=(\d+)/);
-
-                if (currentPageNumber && currentPageNumber[1]) {
-                    currentPage = parseInt(currentPageNumber[1], 10);
-                }
-
-                var pagination = $('<ul class="pagination"></ul>');
-
-                if (result.previous) {
-                    pagination.append('<li><a class="cursor-pointer" onclick="changePage(\'' + result.previous + '\')">قبلی</a></li>');
-                }
-
-                for (var i = 1; i <= totalPages; i++) {
-                    var activeClass = (i === currentPage) ? 'active' : '';
-                    pagination.append('<li class="' + activeClass + '"><a class="cursor-pointer" onclick="changePage(\''+ ajaxUrl +'?page=' + i + '\')">' + i + '</a></li>');
-                }
-
-                if (result.next) {
-                    pagination.append('<li><a class="cursor-pointer" onclick="changePage(\'' + result.next + '\')">بعدی</a></li>');
-                }
-
-                $('#pagination-container').html(pagination);
-            }
-        }   
-    </script>    
 {% endblock %}
